@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- ===============================
+       Basic
+  ================================ -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+  <!-- ===============================
+       SEO & App Info
+  ================================ -->
+  <title>TimeTracker </title>
+  <meta name="description" content="TimeTracker is a calm productivity web app to track your time, visualize your daily workflow, and understand how your hours are spent." />
+  <meta name="keywords" content="time tracking, productivity, daily timeline, stopwatch, time management, web app" />
+  <meta name="author" content="Mohamed Metwally" />
+
+  <!-- ===============================
+       PWA / Web App
+  ================================ -->
+  <meta name="theme-color" content="#0f172a" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="TimeTracker" />
+
+  <!-- ===============================
+       Open Graph (Social / Google)
+  ================================ -->
+  <meta property="og:title" content="TimeTracker — Track Your Time Clearly" />
+  <meta property="og:description" content="A simple and calm web app to track tasks, review your day, and export your time safely." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://metwallysec.github.io/TimeTracker/" />
+  <meta property="og:image" content="imgs/logo4.png" />
+
+  <!-- ===============================
+       Icons / Favicon
+  ================================ -->
+  <link rel="icon" type="image/png" sizes="32x32" href="imgs/logo4.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="imgs/logo4.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="imgs/logo4.png" />
+
+  <!-- ===============================
+       Styles
+  ================================ -->
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- ===============================
+       Fonts
+  ================================ -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  />
+</head>
+<body class="light" dir="ltr">
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <h1 id="appTitle">TimeTracker</h1>
+                <div class="header-controls">
+                    <div class="flex items-center gap-1 bg-gray-200 dark:bg-gray-700 rounded-lg p-1">
+                        <button class="lang-btn px-3 py-1 rounded transition bg-blue-600 text-white font-semibold" data-lang="en">EN</button>
+                        <button class="lang-btn px-3 py-1 rounded transition text-gray-600 dark:text-gray-300" data-lang="ar">AR</button>
+                    </div>
+                    <button id="theme-toggle" class="theme-toggle" title="Toggles light & dark" aria-label="auto" aria-live="polite">
+                        <svg class="sun-and-moon" aria-hidden="true" width="24" height="24" viewBox="0 0 24 24">
+                            <circle class="sun" cx="12" cy="12" r="6" mask="url(#moon-mask)" fill="currentColor" />
+                            <g class="sun-beams" stroke="currentColor">
+                                <line x1="12" y1="1" x2="12" y2="3" />
+                                <line x1="12" y1="21" x2="12" y2="23" />
+                                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                                <line x1="1" y1="12" x2="3" y2="12" />
+                                <line x1="21" y1="12" x2="23" y2="12" />
+                                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+                            </g>
+                            <mask class="moon" id="moon-mask">
+                                <rect x="0" y="0" width="100%" height="100%" fill="white" />
+                                <circle cx="24" cy="10" r="6" fill="black" />
+                            </mask>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <nav>
+        <div class="container">
+            <div class="nav-buttons">
+                <button class="nav-btn active" data-view="stopwatch">Stopwatch</button>
+                <button class="nav-btn" data-view="timeline">Timeline</button>
+                <button class="nav-btn" data-view="visual">Visual Timeline</button>
+                <button class="nav-btn" data-view="habits">Daily Goals</button>
+                <button class="nav-btn" data-view="reports">Reports</button>
+
+                <button class="nav-btn" data-view="export">Export</button>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <div class="container">
+            <!-- Stopwatch View -->
+            <div id="stopwatchView" class="view">
+                <div class="card" id="dateCard">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <div id="labelCurrentDate" class="text-sm opacity-60">Current Date</div>
+                            <div class="text-2xl font-bold" id="currentDateDisplay">Not Set</div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div id="labelTotalToday" class="text-sm opacity-60">Total Today</div>
+                            <div class="text-2xl font-bold" style="color: #2563eb;" id="totalTodayDisplay">0h 0m</div>
+                        </div>
+                    </div>
+                    <div class="button-group mt-4" id="dateActions">
+                        <button class="btn-secondary" onclick="showDatePicker()">Set Date</button>
+                        <button class="btn-danger" onclick="endDay()">End Day</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>Stopwatch</h2>
+                    <div id="taskSelector">
+                        <select id="taskSelect">
+                            <option value="">Select task</option>
+                        </select>
+                        <div id="orLabel" class="text-center text-sm opacity-60">— OR —</div>
+                            <br>
+                        <input type="text" id="newTaskInput" placeholder="New task name">
+                    </div>
+
+                    <!-- NEW: show current task when timer is running -->
+                    <div id="currentTaskDisplay" class="text-center text-lg font-semibold hidden" aria-live="polite"></div>
+
+                    <div class="stopwatch-display" id="stopwatchDisplay">00:00:00</div>
+                    <div class="button-group">
+                        <button class="btn-primary big-btn" id="startBtn" onclick="startTimer()">▶ Start</button>
+                        <button class="btn-secondary big-btn hidden" id="pauseBtn" onclick="pauseTimer()">⏸ Pause</button>
+                        <button class="btn-primary big-btn hidden" id="resumeBtn" onclick="resumeTimer()">▶ Resume</button>
+                        <button class="btn-primary big-btn hidden" id="stopBtn" onclick="stopTimer()">⏹ Stop</button>
+                        <button class="btn-danger big-btn hidden" id="resetBtn" onclick="resetTimer()">Reset</button>
+                    </div>
+                </div>
+
+                <button id="manualEntryBtn" class="btn-primary" style="width: 100%; padding: 1rem; font-size: 1.125rem;" onclick="showManualEntry()">
+                    + Manual Entry
+                </button>
+            </div>
+
+            <!-- Timeline View -->
+            <div id="timelineView" class="view hidden">
+                <div class="card">
+                    <div class="flex justify-between items-center mb-4">
+                            <h2 id="h2Timeline">Daily Timeline</h2>
+                            <div class="text-xl font-bold" style="color: #2563eb;"><span id="labelTimelineTotal">Total:</span> <span id="timelineTotal">0h 0m</span></div>
+                    </div>
+                    <div style="overflow-x: auto;">
+                        <table id="timelineTable">
+                            <thead>
+                                <tr>
+                                    <th id="thTaskName">Task Name</th>
+                                    <th id="thStartTime">Start Time</th>
+                                    <th id="thEndTime">End Time</th>
+                                    <th id="thDuration">Duration</th>
+                                    <th id="thType">Type</th>
+                                </tr>
+                            </thead>
+                            <tbody id="timelineBody">
+                                <tr>
+                                    <td colspan="5" class="text-center opacity-60">No sessions recorded yet</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Visual Timeline View -->
+            <div id="visualView" class="view hidden">
+                <div class="card">
+                    <h2 id="h2Visual">Visual Timeline</h2>
+                    <div id="visualTimelineContent"></div>
+                </div>
+            </div>
+
+            <!-- Habits View -->
+            <div id="habitsView" class="view hidden">
+                <button id="addGoalBtn" class="btn-primary mb-4" style="width: 100%; padding: 1rem; font-size: 1.125rem;" onclick="showHabitModal()">
+                    + Add Goal
+                </button>
+                <div id="habitsContent"></div>
+                <!-- Small button to copy yesterday's goals (non-destructive) -->
+                <div style="display:flex; justify-content:center; margin-top:0.75rem;">
+                    <button id="copyYesterdayBtn" class="btn-secondary" style="padding:0.5rem 0.75rem; width:180px;" onclick="copyYesterdayGoals()">Copy Yesterday</button>
+                </div>
+            </div>
+
+            <!-- Reports View -->
+            <div id="reportsView" class="view hidden">
+                <div class="card">
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 id="h2Reports">Weekly Report</h2>
+                            <button id="customRangeBtn" class="btn-primary" type="button" style="padding:0.5rem 1rem;" onclick="toggleCustomRange()">Custom Range</button>
+                        </div>
+
+                        <div id="customRangePanel" class="hidden" style="background:#f3f4f6;padding:0.75rem;border-radius:8px;margin-bottom:1rem;">
+                            <div style="display:flex;gap:0.5rem;align-items:center;">
+                                <input type="date" id="customStartDate">
+                                <input type="date" id="customEndDate">
+                                <button class="btn-primary" type="button" onclick="applyCustomRange()">Apply</button>
+                                <button class="btn-secondary" type="button" onclick="toggleCustomRange()">Cancel</button>
+                            </div>
+                        </div>
+
+                        <div id="reportsContent"></div>
+                    </div>
+            </div>
+
+            <!-- Export View -->
+            <div id="exportView" class="view hidden">
+                <div class="card">
+                    <h2 id="h2Export">Export / Import</h2>
+                    <button id="exportJsonBtn" class="btn-primary mb-4" style="width: 100%; padding: 1rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem;" onclick="exportJSON()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" x2="12" y1="15" y2="3"></line></svg>
+                        Download JSON
+                    </button>
+                    <button id="exportCsvBtn" class="btn-primary mb-4" style="width: 100%; padding: 1rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem;" onclick="exportCSV()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" x2="12" y1="15" y2="3"></line></svg>
+                        Download CSV
+                    </button>
+                    <label id="uploadJsonLabel" class="btn-primary" style="width: 100%; padding: 1rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem; cursor: pointer;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" x2="12" y1="3" y2="15"></line></svg>
+                        Upload JSON
+                        <input type="file" accept=".json" onchange="importJSON(event)" style="display: none;">
+                    </label>
+                </div>
+                
+                <div class="card">
+                    <h2 id="recentBackupsTitle">Recent backups</h2>
+                    <div id="recentBackupsList" style="max-height: 400px; overflow-y: auto;">
+                        <div class="text-center opacity-60">No backups yet</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modals -->
+    <div class="modal" id="datePickerModal">
+                <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="datePickerTitle">Set Date</h3>
+                <button class="close-btn" onclick="closeModal('datePickerModal')">×</button>
+            </div>
+            <input type="date" id="datePicker">
+            <button class="btn-primary mt-4" style="width: 100%;" onclick="setDate()">Confirm</button>
+        </div>
+    </div>
+
+    <div class="modal" id="manualEntryModal">
+            <div class="modal-content">
+            <div class="modal-header">
+                        <h3 id="manualModalTitle">Manual Entry +</h3>
+                <button class="close-btn" onclick="closeModal('manualEntryModal')">×</button>
+            </div>
+                    <label id="labelManualTaskName">Task Name</label>
+                    <input type="text" id="manualTaskName" list="taskList">
+            <datalist id="taskList"></datalist>
+                    <label id="labelManualDuration">Duration (HH:MM)</label>
+                    <input type="text" id="manualDuration" placeholder="01:30">
+                    <div class="button-group mt-4">
+                        <button id="manualSaveBtn" class="btn-primary" style="flex: 1;" onclick="saveManualEntry()">Save</button>
+                        <button id="manualCancelBtn" class="btn-secondary" style="flex: 1;" onclick="closeModal('manualEntryModal')">Cancel</button>
+                    </div>
+        </div>
+    </div>
+
+    <div class="modal" id="habitModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                    <h3 id="habitModalTitle">Add Goal</h3>
+                <button class="close-btn" onclick="closeModal('habitModal')">×</button>
+            </div>
+                <label id="labelHabitName">Task Name</label>
+                <input type="text" id="habitName">
+                <label id="labelHabitGoal">Goal (minutes)</label>
+                <input type="number" id="habitGoal" placeholder="60">
+                <div class="button-group mt-4">
+                    <button id="habitSaveBtn" class="btn-primary" style="flex: 1;" onclick="saveHabit()">Save</button>
+                    <button id="habitCancelBtn" class="btn-secondary" style="flex: 1;" onclick="closeModal('habitModal')">Cancel</button>
+                </div>
+        </div>
+    </div>
+
+    <div class="modal" id="themeModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Select Theme</h3>
+                <button class="close-btn" onclick="closeModal('themeModal')">×</button>
+            </div>
+            <button class="btn-primary mb-4" style="width: 100%;" onclick="selectTheme('light')">Light</button>
+            <button class="btn-primary mb-4" style="width: 100%;" onclick="selectTheme('dark')">Dark</button>
+            <button class="btn-primary mb-4" style="width: 100%;" onclick="selectTheme('blue')">Blue</button>
+            <button class="btn-primary mb-4" style="width: 100%;" onclick="selectTheme('green')">Green</button>
+            <button class="btn-primary mb-4" style="width: 100%;" onclick="selectTheme('purple')">Purple</button>
+            <button class="btn-primary mb-4" style="width: 100%;" onclick="selectTheme('amber')">Amber</button>
+        </div>
+    </div>
+
+<footer>
+  <div class="container">
+    <h3 class="font-bold mb-4">TimeTracker</h3>
+
+    <p class="text-sm opacity-60 mb-4">
+      © 2026 Mohamed Metwally (metwallysec) — AI-assisted development
+    </p>
+    <div class="footer-help">
+      <a href="/help.html">Help & How to use</a>
+    </div>
+  </div></br>
+    <div class="footer-links">
+      <a href="https://mohamed-metwally.site/" target="_blank">Website</a>
+      <span>·</span>
+      <a href="https://github.com/metwallysec" target="_blank">GitHub</a>
+      <span>·</span>
+      <a href="https://www.linkedin.com/in/metwallysec" target="_blank">LinkedIn</a>
+    </div>
+
+
+</footer>
+    <script src="main.js"></script>
+</body>
+</html>
