@@ -78,7 +78,7 @@ Built with focus on simplicity and privacy.
 
 ---
 
-## 🌐 Live Demo (Optional)
+## 🌐 Live Demo
 
 A live version of the project is available here:  
 https://metwallysec.github.io/TimeTracker/
