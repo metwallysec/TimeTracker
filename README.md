@@ -78,6 +78,14 @@ Built with focus on simplicity and privacy.
 
 ---
 
+## 🌐 Live Demo (Optional)
+
+A live version of the project is available here:  
+https://metwallysec.github.io/TimeTracker/
+
+The application also works fully offline by opening `index.html`.
+
+---
 ## 📜 License
 
 MIT
