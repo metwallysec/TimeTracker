@@ -1696,7 +1696,7 @@ function exportJSON() {
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = `focustrack-backup-${ymdLocal(now)}.json`;
+  a.download = `TimeTracker-backup-${ymdLocal(now)}.json`;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
@@ -1919,3 +1919,4 @@ function loadData() {
 
 // Initialize app
 window.addEventListener("DOMContentLoaded", init);
+
